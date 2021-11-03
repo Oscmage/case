@@ -1,5 +1,5 @@
 import React from "react";
-import { MonitoringListProps } from "./Types";
+import { MonitoringListProps, Service } from "./Types";
 
 export class MonitoringList extends React.Component<MonitoringListProps, {}> {
 
@@ -8,8 +8,8 @@ export class MonitoringList extends React.Component<MonitoringListProps, {}> {
     }
   
     render() {
-        const listItems = this.props.services.map((number) =>
-                <li>{number}</li>
+        const listItems = this.props.services.map((service: Service) =>
+                <li>Name: {service.name}, Url: {service.url}</li>
         );
         return (
             <ul>
