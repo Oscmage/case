@@ -1,2 +1,15 @@
-package com.example.monitoring;public class TextMessageDTO {
+package com.example.monitoring;
+
+public class TextMessageDTO {
+
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }
