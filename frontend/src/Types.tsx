@@ -17,5 +17,10 @@ export interface MonitoringListInterface {
 };
 
 export interface CreateMonitoringList {
-    create: (name: string, url: string) => void
+    create: (name: string, url: string) => string | null
 };
+
+export interface CreateMonitoringResponse {
+    error?: string,
+    service?: Service,
+}

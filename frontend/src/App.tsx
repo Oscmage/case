@@ -3,12 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 import { CreateMonitoring } from './CreateMonitoring';
 import { MonitoringList} from './MonitoringList';
-import { CreateMonitoringList, MonitoringListInterface, Service, Status } from './Types';
+import { CreateMonitoringList, CreateMonitoringResponse, MonitoringListInterface, Service, Status } from './Types';
 
-interface CreateMonitoringResponse {
-    error?: string,
-    service?: Service,
-}
+import { Client } from '@stomp/stompjs';
+
+const SOCKET_URL = 'ws://localhost:8080/ws-message';
 
 export class App extends React.Component<{}, MonitoringListInterface> {
 
@@ -19,18 +18,52 @@ export class App extends React.Component<{}, MonitoringListInterface> {
     };
   }
 
+  componentDidMount() {
+    let currentComponent = this;
+    let onConnected = () => {
+      console.log("Connected!!")
+      client.subscribe('/topic/message', function (msg) {
+        if (msg.body) {
+          var jsonBody = JSON.parse(msg.body);
+          if (jsonBody.message) {
+            //currentComponent.setState({ messages: jsonBody.message })
+            console.log(jsonBody.message)
+          }
+        }
+      });
+    }
+
+    let onDisconnected = () => {
+      console.log("Disconnected!!")
+    }
+
+    const client = new Client({
+      brokerURL: SOCKET_URL,
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      onConnect: onConnected,
+      onDisconnect: onDisconnected
+    });
+
+    client.activate();
+  };
+
+
   createMonitoring: CreateMonitoringList["create"] = (name: string, url: string) => {
+    // TODO: Split validation/parsing and action.
     const response = this.createMonitoring2(name, url);
     const error= response.error
 
     if (typeof error === 'undefined') {
       if (typeof response.service === 'undefined') {
-        throw new Error('Expecting service if there is no error');
+        return "Internal error";
       }
       
       this.setState(prevState => ({
         services: [...prevState.services, response.service]
       }));
+      return null;
     } else {
       return error;
     }

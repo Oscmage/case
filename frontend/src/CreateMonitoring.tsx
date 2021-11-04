@@ -36,8 +36,12 @@ export class CreateMonitoring extends React.Component<CreateMonitoringList, Crea
     }
 
     handleSubmit = (event: any) => {
-        this.props.create(this.state.name, this.state.url);
-        this.setState(initialState);
+        const error: string | null =  this.props.create(this.state.name, this.state.url);
+        if (error !== null) {
+            alert("Received error: " + error)
+        } else {
+            this.setState(initialState);
+        }
         event.preventDefault();
     }
   
