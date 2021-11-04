@@ -1,4 +1,4 @@
-package monitoring;
+package monitoring.domain;
 
 public class CreateMonitoringDTO {
 

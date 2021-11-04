@@ -1,5 +1,9 @@
 package monitoring;
 
+import monitoring.domain.CreateMonitoringDTO;
+import monitoring.domain.CreateMonitoringDTOV2;
+import monitoring.domain.Service;
+import monitoring.domain.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +31,7 @@ public class WebSocketTextController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")
     public ResponseEntity<Service> createMonitoring(@RequestBody CreateMonitoringDTOV2 createMonitoringDTO) {
         //template.convertAndSend("/topic/message", createMonitoringDTO);
