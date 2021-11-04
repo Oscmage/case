@@ -2,20 +2,38 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { CreateMonitoring } from './CreateMonitoring';
-import { MonitoringList } from './MonitoringList';
-import { Service } from './Types';
+import { MonitoringList} from './MonitoringList';
+import { CreateMonitoringList, MonitoringListInterface, Service } from './Types';
 
-export class App extends React.Component<{}, {}> {
-  render() {
+export class App extends React.Component<{}, MonitoringListInterface> {
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      services: []
+    };
+  }
+
+  createMonitoring: CreateMonitoringList["create"] = (name: string, url: string) => {
     const service: Service = {
-      name: "Test name",
-      url: "Url"
-    }
+      name: name,
+      url: url,
+    };
+    
+    this.setState(prevState => {
+      const services = [...prevState.services, service]
+      return {
+        services
+      };
+    });
+  }
+
+  render() {
     return (
       <div className="App">
         <div className="Form-Wrapper">
-          <CreateMonitoring />
-          <MonitoringList services={[service]}/>
+          <CreateMonitoring create={this.createMonitoring} />
+          <MonitoringList services={this.state.services}/>
         </div>
       </div>
     );

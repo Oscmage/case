@@ -1,17 +1,20 @@
 import React from "react";
+import { CreateMonitoringList } from "./Types";
 
 interface CreateState {
     name: string;
     url: string;
 }
 
-export class CreateMonitoring extends React.Component<{}, CreateState> {
+const initialState = {
+    name: "",
+    url: "",
+}
+
+export class CreateMonitoring extends React.Component<CreateMonitoringList, CreateState> {
     constructor(props: any) {
       super(props);
-      this.state = {
-        name: "",
-        url: "",
-      };
+      this.state = initialState;
     }
 
     // These two methods are duplicated, simplify
@@ -32,7 +35,8 @@ export class CreateMonitoring extends React.Component<{}, CreateState> {
     }
 
     handleSubmit = (event: any) => {
-        alert('Trying to submit url: ' + this.state.url);
+        this.props.create(this.state.name, this.state.url);
+        this.setState(initialState);
         event.preventDefault();
     }
   
