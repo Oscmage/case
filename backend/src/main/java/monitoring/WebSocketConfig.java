@@ -1,4 +1,4 @@
-package com.example.monitoring;
+package monitoring;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

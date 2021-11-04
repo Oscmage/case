@@ -1,4 +1,4 @@
-package com.example.monitoring;
+package monitoring;
 
 public class CreateMonitoringDTO {
 
