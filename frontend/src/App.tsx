@@ -7,7 +7,7 @@ import { CreateMonitoringList, CreateMonitoringResponse, MonitoringListInterface
 
 import { Client } from '@stomp/stompjs';
 
-const SOCKET_URL = 'ws://localhost:8080/ws-message';
+const SOCKET_URL = 'ws://localhost:8080/ws-monitoring';
 
 export class App extends React.Component<{}, MonitoringListInterface> {
 
