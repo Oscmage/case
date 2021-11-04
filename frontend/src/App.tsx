@@ -20,12 +20,9 @@ export class App extends React.Component<{}, MonitoringListInterface> {
       url: url,
     };
     
-    this.setState(prevState => {
-      const services = [...prevState.services, service]
-      return {
-        services
-      };
-    });
+    this.setState(prevState => ({
+      services: [...prevState.services, service]
+    }));
   }
 
   render() {

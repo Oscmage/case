@@ -1,0 +1,21 @@
+.monitoring-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.monitoring-form div {
+  display: flex;
+}
+
+.monitoring-form .form-row input {
+  margin-left: auto;
+}
+
+.monitoring-form .form-row label {
+  padding-right: 5px;
+}
+
+.form-row {
+  padding: 0px 0px 10px 0px;
+}

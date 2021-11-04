@@ -1,4 +1,5 @@
 import React from "react";
+import './CreateMonitoring.css';
 import { CreateMonitoringList } from "./Types";
 
 interface CreateState {
@@ -42,25 +43,28 @@ export class CreateMonitoring extends React.Component<CreateMonitoringList, Crea
   
     render() {
       return (
-        <form onSubmit={this.handleSubmit}>
-            <label>
-            Service Name:
-            <input
-                name="serviceName"
-                type="text"
-                value={this.state.name}
-                onChange={this.handleInputChangeName} />
-            </label>
-            <br />
-            <label>
-                Url:
+        <form className="monitoring-form" onSubmit={this.handleSubmit}>
+            <div className="form-row">
+                <label>
+                    Service Name:
+                </label>
+                <input
+                    name="serviceName"
+                    type="text"
+                    value={this.state.name}
+                    onChange={this.handleInputChangeName} />
+            </div>
+            <div className="form-row">
+                <label>
+                    Url:
+                </label>
                 <input
                 name="urlToPoll"
                 type="text"
                 value={this.state.url}
                 onChange={this.handleInputChangeUrl} />
-            </label>
-            <input type="submit" value="Submit" />
+            </div>
+            <input type="submit" value="Add monitoring" />
         </form>
       );
     }      
