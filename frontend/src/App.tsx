@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { CreateMonitoring } from './CreateMonitoring';
 import { MonitoringList} from './MonitoringList';
-import { CreateMonitoringList, MonitoringListInterface, Service } from './Types';
+import { CreateMonitoringList, MonitoringListInterface, Service, Status } from './Types';
 
 export class App extends React.Component<{}, MonitoringListInterface> {
 
@@ -18,6 +18,7 @@ export class App extends React.Component<{}, MonitoringListInterface> {
     const service: Service = {
       name: name,
       url: url,
+      status: Status.Pending
     };
     
     this.setState(prevState => ({
