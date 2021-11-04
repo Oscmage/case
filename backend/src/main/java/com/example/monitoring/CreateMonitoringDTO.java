@@ -1,6 +1,6 @@
 package com.example.monitoring;
 
-public class TextMessageDTO {
+public class CreateMonitoringDTO {
 
     private String message;
 
