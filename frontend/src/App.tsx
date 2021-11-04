@@ -27,7 +27,7 @@ export class App extends React.Component<{}, MonitoringListInterface> {
           var jsonBody = JSON.parse(msg.body);
           if (jsonBody.message) {
             //currentComponent.setState({ messages: jsonBody.message })
-            console.log(jsonBody.message)
+            console.log(jsonBody)
           }
         }
       });
