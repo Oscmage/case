@@ -17,7 +17,7 @@ export interface MonitoringListInterface {
 };
 
 export interface CreateMonitoringList {
-    create: (name: string, url: string) => string | null
+    create: (name: string, url: string) => Promise<string | null>
 };
 
 export interface CreateMonitoringResponse {

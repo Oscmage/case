@@ -18,7 +18,6 @@ export class CreateMonitoring extends React.Component<CreateMonitoringList, Crea
       this.state = initialState;
     }
 
-    // These two methods are duplicated, simplify
     handleInputChangeUrl = (event: any) => {
         const target = event.target;
         const value = target.value;
@@ -35,14 +34,15 @@ export class CreateMonitoring extends React.Component<CreateMonitoringList, Crea
         });
     }
 
-    handleSubmit = (event: any) => {
-        const error: string | null =  this.props.create(this.state.name, this.state.url);
+    handleSubmit = async (event: any) => {
+        event.preventDefault();
+
+        const error: string | null = await this.props.create(this.state.name, this.state.url);
         if (error !== null) {
             alert("Received error: " + error)
         } else {
             this.setState(initialState);
         }
-        event.preventDefault();
     }
   
     render() {

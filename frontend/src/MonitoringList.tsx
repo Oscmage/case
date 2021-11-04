@@ -5,7 +5,7 @@ import './MonitoringList.css';
 export class MonitoringList extends React.Component<MonitoringListInterface, {}> {
     render() {
         const listItems = this.props.services.map((service: Service) =>
-            <li>
+            <li key={service.url}>
                 <div className="service-text-info-wrapper">
                     <label>Name: {service.name}</label>
                     <label>Url: {service.url}</label>

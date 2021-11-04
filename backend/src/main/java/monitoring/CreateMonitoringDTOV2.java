@@ -1,17 +1,8 @@
 package monitoring;
 
-public class CreateMonitoringDTO {
+public class CreateMonitoringDTOV2 {
 
-    private String message;
     private String name, url;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public String getName() {
         return name;

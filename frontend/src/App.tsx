@@ -6,8 +6,11 @@ import { MonitoringList} from './MonitoringList';
 import { CreateMonitoringList, CreateMonitoringResponse, MonitoringListInterface, Service, Status } from './Types';
 
 import { Client } from '@stomp/stompjs';
+import axios from 'axios';
+import { STATUS_CODES } from 'http';
 
 const SOCKET_URL = 'ws://localhost:8080/ws-monitoring';
+const CREATE_URL = 'http://localhost:8080/create'
 
 export class App extends React.Component<{}, MonitoringListInterface> {
 
@@ -49,11 +52,10 @@ export class App extends React.Component<{}, MonitoringListInterface> {
     client.activate();
   };
 
-
-  createMonitoring: CreateMonitoringList["create"] = (name: string, url: string) => {
+  createMonitoring: CreateMonitoringList["create"] = async (name: string, url: string) => {
     // TODO: Split validation/parsing and action.
-    const response = this.createMonitoring2(name, url);
-    const error= response.error
+    const response = await this.createMonitoring2(name, url);
+    const error = response.error
 
     if (typeof error === 'undefined') {
       if (typeof response.service === 'undefined') {
@@ -69,16 +71,39 @@ export class App extends React.Component<{}, MonitoringListInterface> {
     }
   }
 
-  createMonitoring2 = (name: string, url: string): CreateMonitoringResponse => {
-    const service: Service = {
+  createMonitoring2 = async (name: string, url: string): Promise<CreateMonitoringResponse> => {
+    const data = {
       name: name,
       url: url,
-      status: Status.Pending,
-      creationTime: new Date().toLocaleString(),
-    };
-    return {
-        service
     }
+
+    return await axios.post(
+      CREATE_URL,
+      data,
+    ).then((res) => {
+      // TODO: Can't seem to find a javascript class with HTTP status code mapping instead of just doing something like this.
+      if (res.status === 201) {
+        // TODO: This should be deserilization using JSON.
+        const service: Service = {
+          name: res.data.name,
+          url: res.data.url,
+          status: res.data.status,
+          creationTime: res.data.creationTime,
+        };
+        console.log(res.data);
+        return {
+            service
+        }
+      } else {
+        return {
+          error: res.data
+        };
+      }
+    }).catch((err) => {
+      return {
+        error: err
+      };
+    });
   }
 
   render() {
