@@ -4,6 +4,8 @@ import monitoring.domain.CreateMonitoringDTO;
 import monitoring.domain.CreateMonitoringDTOV2;
 import monitoring.domain.Service;
 import monitoring.domain.Status;
+import monitoring.repository.ServiceCreator;
+import monitoring.repository.ServiceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class WebSocketTextController {
 
     @Autowired
     SimpMessagingTemplate template;
+    @Autowired
+    ServiceCreator serviceCreator;
 
     @PostMapping("/send")
     public ResponseEntity<Void> sendMessage(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
@@ -43,6 +47,7 @@ public class WebSocketTextController {
                 new Date(),
                 Status.Pending
         );
+        this.serviceCreator.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
         return new ResponseEntity<>(s, HttpStatus.CREATED);
     }
 
