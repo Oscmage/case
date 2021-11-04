@@ -5,17 +5,19 @@ import { CreateMonitoring } from './CreateMonitoring';
 import { MonitoringList } from './MonitoringList';
 import { Service } from './Types';
 
-export function App() {
-  const service: Service = {
-    name: "Test name",
-    url: "Url"
-  }
-  return (
-    <div className="App">
-      <div className="Form-Wrapper">
-        <CreateMonitoring />
-        <MonitoringList services={[service]}/>
+export class App extends React.Component<{}, {}> {
+  render() {
+    const service: Service = {
+      name: "Test name",
+      url: "Url"
+    }
+    return (
+      <div className="App">
+        <div className="Form-Wrapper">
+          <CreateMonitoring />
+          <MonitoringList services={[service]}/>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
