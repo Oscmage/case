@@ -43,7 +43,7 @@ public class WebSocketTextController {
                 new Date(),
                 Status.Pending
         );
-        return new ResponseEntity<>(s,HttpStatus.CREATED);
+        return new ResponseEntity<>(s, HttpStatus.CREATED);
     }
 
     @MessageMapping("/sendMessage")
