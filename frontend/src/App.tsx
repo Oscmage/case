@@ -18,7 +18,8 @@ export class App extends React.Component<{}, MonitoringListInterface> {
     const service: Service = {
       name: name,
       url: url,
-      status: Status.Pending
+      status: Status.Pending,
+      creationTime: new Date().toLocaleString(),
     };
     
     this.setState(prevState => ({

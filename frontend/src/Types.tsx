@@ -1,7 +1,7 @@
 
 export enum Status {
     Pending = "Pending",
-    OK = "Ok",
+    Ok = "Ok",
     Error = "Error",
 }
 
@@ -9,6 +9,7 @@ export interface Service {
     name: string,
     url: string,
     status: Status,
+    creationTime: string,
 };
 
 export interface MonitoringListInterface {

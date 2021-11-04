@@ -9,9 +9,10 @@ export class MonitoringList extends React.Component<MonitoringListInterface, {}>
                 <div className="service-text-info-wrapper">
                     <label>Name: {service.name}</label>
                     <label>Url: {service.url}</label>
+                    <label>Created: {service.creationTime}</label>
                 </div>
                 <div className="service-status-wrapper tooltip">
-                    <span className="dot"></span>
+                    <span className={"dot " + service.status}></span>
                     <span className="tooltiptext">{service.status}</span>
                 </div>
             </li>
