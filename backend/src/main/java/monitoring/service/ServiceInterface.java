@@ -18,15 +18,15 @@ public class ServiceInterface {
 
     @Transactional
     public ServiceDTO createService(String name, String url) throws IllegalStateException {
-        Optional<monitoring.service.Service> existingService = serviceDAO.findByUrl(url);
+        Optional<ServiceTable> existingService = serviceDAO.findByUrl(url);
         if (existingService.isPresent()) {
             throw new IllegalStateException("Monitoring for this URL already exists");
         }
 
-        monitoring.service.Service s = new monitoring.service.Service(
-            UUID.randomUUID(), name, url, new Date(), "Pending", UUID.randomUUID(), false, new Date()
+        ServiceTable s = new ServiceTable(
+            UUID.randomUUID(), name, url, new Date(), ServiceStatus.Pending.toString(), UUID.randomUUID(), false, new Date()
         );
-        monitoring.service.Service result = serviceDAO.save(s);
+        ServiceTable result = serviceDAO.save(s);
         return new ServiceDTO(
             result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
         );

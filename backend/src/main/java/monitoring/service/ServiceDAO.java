@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-interface ServiceDAO extends CrudRepository<Service, UUID> {
-    Optional<Service> findByUrl(String url);
+interface ServiceDAO extends CrudRepository<ServiceTable, UUID> {
+    Optional<ServiceTable> findByUrl(String url);
 
     @Modifying
     @Query(value = "UPDATE service SET polling = TRUE WHERE id IN (SELECT id FROM Service s WHERE " +
             "(s.updated < NOW() - INTERVAL '10 SECONDS' AND NOT polling) OR" +
             "(s.updated < NOW() - INTERVAL '180 SECONDS' AND polling) LIMIT ?1 FOR UPDATE SKIP LOCKED) RETURNING *;"
     , nativeQuery = true)
-    List<Service> findServicesToPoll(int pollingLimit);
+    List<ServiceTable> findServicesToPoll(int pollingLimit);
 
     @Modifying
     @Query(value = "UPDATE service SET polling = FALSE, status = ?1 WHERE id  = ?2", nativeQuery = true)

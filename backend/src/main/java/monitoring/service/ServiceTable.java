@@ -8,6 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,8 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class Service {
+@Table(name = "service")
+class ServiceTable {
     @Id
     @Column(nullable = false)
     private UUID id;

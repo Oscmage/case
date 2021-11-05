@@ -1,5 +1,5 @@
 package monitoring.service;
 
-public enum Status {
+public enum ServiceStatus {
     Pending, Ok, Error
 }
