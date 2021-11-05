@@ -1,17 +1,11 @@
 package monitoring.domain;
 
+import java.util.Date;
+
 public class CreateMonitoringDTO {
 
-    private String message;
-    private String name, url;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    private String name, url, status;
+    private Date created;
 
     public String getName() {
         return name;
@@ -27,5 +21,21 @@ public class CreateMonitoringDTO {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

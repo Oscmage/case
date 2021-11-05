@@ -1,7 +1,6 @@
 package monitoring;
 
 import monitoring.domain.CreateMonitoringDTO;
-import monitoring.domain.CreateMonitoringDTOV2;
 import monitoring.domain.Service;
 import monitoring.domain.ServiceCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class WebSocketTextController {
 
     @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")
-    public ResponseEntity<Service> sendMonitoring(@RequestBody CreateMonitoringDTOV2 createMonitoringDTO) {
+    public ResponseEntity<Service> sendMonitoring(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
         try {
             Service s = this.serviceCreator.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
             return new ResponseEntity<>(s, HttpStatus.CREATED);
@@ -38,12 +37,12 @@ public class WebSocketTextController {
     }
 
     @MessageMapping("/sendMonitoring")
-    public void receiveMonitoring(@Payload CreateMonitoringDTO textMessageDTO) {
+    public void receiveMonitoring(@Payload CreateMonitoringDTO createMonitoringDTOV2) {
         // receive message from client
     }
 
     @SendTo("/topic/monitoring")
-    public CreateMonitoringDTOV2 broadcastMonitoring(@Payload CreateMonitoringDTOV2 createMonitoringDTO) {
+    public CreateMonitoringDTO broadcastMonitoring(@Payload CreateMonitoringDTO createMonitoringDTO) {
         System.out.println("Sending monitoring update");
         return createMonitoringDTO;
     }

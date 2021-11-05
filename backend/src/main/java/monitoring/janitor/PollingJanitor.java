@@ -1,20 +1,18 @@
 package monitoring.janitor;
 
+
 import monitoring.domain.CreateMonitoringDTO;
-import monitoring.domain.CreateMonitoringDTOV2;
 import monitoring.repository.Service;
 import monitoring.repository.ServiceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @org.springframework.stereotype.Service
@@ -41,7 +39,7 @@ public class PollingJanitor{
             if (statusCode == HttpStatus.OK) {
                 System.out.println("RECEIVED OK");
                 serviceDAO.markPollingResult("Ok", s.getId());
-                CreateMonitoringDTOV2 b = new CreateMonitoringDTOV2();
+                CreateMonitoringDTO b = new CreateMonitoringDTO();
                 b.setName(s.getName());
                 b.setUrl(s.getUrl());
                 b.setStatus("Ok");
