@@ -26,6 +26,8 @@ export class App extends React.Component<{}, MonitoringListInterface> {
     let onConnected = () => {
       console.log("Connected!!")
       client.subscribe('/topic/message', function (msg) {
+        console.log("Msg received!")
+        console.log(msg.body);
         if (msg.body) {
           var jsonBody = JSON.parse(msg.body);
           if (jsonBody.message) {

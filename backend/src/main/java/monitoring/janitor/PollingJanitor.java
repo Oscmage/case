@@ -1,9 +1,11 @@
 package monitoring.janitor;
 
+import monitoring.domain.CreateMonitoringDTO;
 import monitoring.repository.Service;
 import monitoring.repository.ServiceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,8 @@ public class PollingJanitor{
     private static final int POLLING_LIMIT = 10;
     @Autowired
     private ServiceDAO serviceDAO;
+    @Autowired
+    SimpMessagingTemplate template;
 
     @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.SECONDS)
     @Transactional
@@ -36,6 +40,10 @@ public class PollingJanitor{
             if (statusCode == HttpStatus.OK) {
                 System.out.println("RECEIVED OK");
                 serviceDAO.markPollingResult("Ok", s.getId());
+                CreateMonitoringDTO b = new CreateMonitoringDTO();
+                b.setName(s.getName());
+                b.setUrl(s.getUrl());
+                template.convertAndSend("/topic/message", b);
             } else {
                 System.out.println("RECEIVED Error");
                 serviceDAO.markPollingResult("Error", s.getId());
