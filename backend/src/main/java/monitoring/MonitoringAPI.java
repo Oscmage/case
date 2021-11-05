@@ -2,7 +2,7 @@ package monitoring;
 
 import monitoring.dto.CreateMonitoringDTO;
 import monitoring.dto.ServiceDTO;
-import monitoring.service.ServiceCreator;
+import monitoring.service.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MonitoringAPI {
     @Autowired
-    ServiceCreator serviceCreator;
+    ServiceInterface serviceCreator;
 
     @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")

@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ServiceCreator {
+public class ServiceInterface {
 
     @Autowired
     private ServiceDAO serviceDAO;

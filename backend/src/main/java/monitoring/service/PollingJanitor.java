@@ -30,22 +30,41 @@ public class PollingJanitor {
 
         System.out.println("Found services : " + services.size());
         for (Service s: services) {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders requestHeaders = new HttpHeaders();
-            HttpEntity requestEntity = new HttpEntity<>(requestHeaders);
-            ResponseEntity<String> response = restTemplate.exchange(s.getUrl(), HttpMethod.GET, requestEntity, String.class);
-            HttpStatus statusCode = response.getStatusCode();
-
-            Status status;
-            if (statusCode == HttpStatus.OK) {
-                status = Status.Ok;
-                ServiceDTO serviceDTO = new ServiceDTO(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), status.toString());
-                template.convertAndSend("/topic/monitoring", serviceDTO);
-            } else {
-                status = Status.Error;
-            }
-            serviceDAO.markPollingResult(status.toString(), s.getId());
+            // TODO: Make this run in it's own thread.
+            updateStatus(s);
         }
     }
 
+    private void updateStatus(Service s) {
+        ResponseEntity<String> response = callServiceUrl(s);
+
+        if (isOk(response)) {
+           markOk(s);
+        } else {
+            markError(s);
+        }
+    }
+    
+    private ResponseEntity<String> callServiceUrl(Service s) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders requestHeaders = new HttpHeaders();
+        HttpEntity requestEntity = new HttpEntity<>(requestHeaders);
+        return restTemplate.exchange(s.getUrl(), HttpMethod.GET, requestEntity, String.class);
+    }
+
+    private boolean isOk(ResponseEntity<String> response) {
+        return response.getStatusCode() == HttpStatus.OK;
+    }
+
+    private void markOk(Service s) {
+        String status = Status.Ok.toString();
+        ServiceDTO serviceDTO = new ServiceDTO(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), status);
+        template.convertAndSend("/topic/monitoring", serviceDTO);
+        serviceDAO.markPollingResult(status, s.getId());
+    }
+
+    private void markError(Service s) {
+        String status = Status.Error.toString();
+        serviceDAO.markPollingResult(status, s.getId());
+    }
 }
