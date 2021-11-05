@@ -1,14 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { CreateMonitoring } from './CreateMonitoring';
 import { MonitoringList} from './MonitoringList';
 import { CreateMonitoringList, CreateMonitoringResponse, MonitoringDict, Service, Status } from './Types';
-import update from 'react-addons-update';
 
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
-import { STATUS_CODES } from 'http';
 
 const SOCKET_URL = 'ws://localhost:8080/ws-monitoring';
 const CREATE_URL = 'http://localhost:8080/create'
@@ -30,7 +27,6 @@ export class App extends React.Component<{}, MonitoringDict> {
 
         if (msg.body) {
           var jsonBody = JSON.parse(msg.body);
-          console.log(jsonBody);
           const oldState = this.state.services;
           const newServiceValue: Service = {
             reference: jsonBody.reference,
@@ -47,7 +43,6 @@ export class App extends React.Component<{}, MonitoringDict> {
         }
       });
     }
-    //onConnected.bind(this);
 
     let onDisconnected = () => {
       console.log("Disconnected!!")
