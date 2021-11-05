@@ -8,9 +8,9 @@ public class Service {
     private final String name;
     private final String url;
     private final Date creationTime;
-    private final Status status;
+    private final String status;
 
-    public Service(UUID reference, String name, String url, Date created, Status status) {
+    public Service(UUID reference, String name, String url, Date created, String status) {
         this.reference = reference;
         this.name = name;
         this.url = url;
@@ -30,7 +30,7 @@ public class Service {
         return creationTime;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 

@@ -7,8 +7,6 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,6 +23,9 @@ public class Service extends EntityWithUUID {
 
     @Column(nullable = false)
     private Date createdTime;
+
+    @Column(nullable = false)
+    private String status;
 
     @Type(type = "pg-uuid")
     @Column(nullable = false)
