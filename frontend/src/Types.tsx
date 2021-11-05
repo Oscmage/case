@@ -6,14 +6,15 @@ export enum Status {
 }
 
 export interface Service {
+    reference: string,
     name: string,
     url: string,
     status: Status,
     creationTime: string,
 };
 
-export interface MonitoringListInterface {
-    services: Service[];
+export interface MonitoringDict {
+    services: { [id: string]: Service};
 };
 
 export interface CreateMonitoringList {

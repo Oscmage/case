@@ -36,22 +36,15 @@ public class PollingJanitor{
             HttpEntity requestEntity = new HttpEntity<>(requestHeaders);
             ResponseEntity<String> response = restTemplate.exchange(s.getUrl(), HttpMethod.GET, requestEntity, String.class);
             HttpStatus statusCode = response.getStatusCode();
+
             if (statusCode == HttpStatus.OK) {
-                System.out.println("RECEIVED OK");
                 serviceDAO.markPollingResult("Ok", s.getId());
-                CreateMonitoringDTO b = new CreateMonitoringDTO();
-                b.setName(s.getName());
-                b.setUrl(s.getUrl());
-                b.setStatus("Ok");
-                b.setCreated(s.getCreatedTime());
-                template.convertAndSend("/topic/monitoring", b);
-                System.out.println("Sent OK");
+                monitoring.domain.Service serviceDTO = new monitoring.domain.Service(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), "Ok");
+                template.convertAndSend("/topic/monitoring", serviceDTO);
             } else {
-                System.out.println("RECEIVED Error");
                 serviceDAO.markPollingResult("Error", s.getId());
             }
         }
-
     }
 
 }

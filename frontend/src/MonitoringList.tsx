@@ -1,10 +1,10 @@
 import React from "react";
-import { MonitoringListInterface, Service } from "./Types";
+import { MonitoringDict, Service } from "./Types";
 import './MonitoringList.css';
 
-export class MonitoringList extends React.Component<MonitoringListInterface, {}> {
+export class MonitoringList extends React.Component<MonitoringDict, {}> {
     render() {
-        const listItems = this.props.services.map((service: Service) =>
+        const listItems = Object.entries(this.props.services).map(([_, service]) =>
             <li key={service.url}>
                 <div className="service-text-info-wrapper">
                     <label>Name: {service.name}</label>

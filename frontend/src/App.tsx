@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import { CreateMonitoring } from './CreateMonitoring';
 import { MonitoringList} from './MonitoringList';
-import { CreateMonitoringList, CreateMonitoringResponse, MonitoringListInterface, Service, Status } from './Types';
+import { CreateMonitoringList, CreateMonitoringResponse, MonitoringDict, Service, Status } from './Types';
+import update from 'react-addons-update';
 
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
@@ -12,31 +13,41 @@ import { STATUS_CODES } from 'http';
 const SOCKET_URL = 'ws://localhost:8080/ws-monitoring';
 const CREATE_URL = 'http://localhost:8080/create'
 
-export class App extends React.Component<{}, MonitoringListInterface> {
+export class App extends React.Component<{}, MonitoringDict> {
 
   constructor(props: any) {
     super(props);
     this.state = {
-      services: []
+      services: {}
     };
   }
 
-  componentDidMount() {
-    let currentComponent = this;
+  componentDidMount = () => {
     let onConnected = () => {
       console.log("Connected!!")
-      client.subscribe('/topic/monitoring', function (msg) {
+      client.subscribe('/topic/monitoring', (msg) => {
         console.log("Msg received!")
-        console.log(msg.body);
+
         if (msg.body) {
           var jsonBody = JSON.parse(msg.body);
-          if (jsonBody.message) {
-            //currentComponent.setState({ messages: jsonBody.message })
-            console.log(jsonBody)
-          }
+          console.log(jsonBody);
+          const oldState = this.state.services;
+          const newServiceValue: Service = {
+            reference: jsonBody.reference,
+            name: jsonBody.name,
+            url: jsonBody.url,
+            status: jsonBody.status,
+            creationTime: jsonBody.creationTime,
+          };
+          const newState = {...oldState, [newServiceValue.reference]: newServiceValue};
+          
+          this.setState({
+            services: newState
+          });
         }
       });
     }
+    //onConnected.bind(this);
 
     let onDisconnected = () => {
       console.log("Disconnected!!")
@@ -63,10 +74,12 @@ export class App extends React.Component<{}, MonitoringListInterface> {
       if (typeof response.service === 'undefined') {
         return "Internal error";
       }
-      
-      this.setState(prevState => ({
-        services: [...prevState.services, response.service]
+      const oldState = this.state.services
+      const newState = {...oldState, [response.service.reference]: response.service};
+      this.setState(() => ({
+        services: newState
       }));
+
       return null;
     } else {
       return error;
@@ -87,6 +100,7 @@ export class App extends React.Component<{}, MonitoringListInterface> {
       if (res.status === 201) {
         // TODO: This should be deserilization using JSON.
         const service: Service = {
+          reference: res.data.reference,
           name: res.data.name,
           url: res.data.url,
           status: res.data.status,

@@ -37,13 +37,12 @@ public class WebSocketTextController {
     }
 
     @MessageMapping("/sendMonitoring")
-    public void receiveMonitoring(@Payload CreateMonitoringDTO createMonitoringDTOV2) {
+    public void receiveMonitoring(@Payload Service service) {
         // receive message from client
     }
 
     @SendTo("/topic/monitoring")
-    public CreateMonitoringDTO broadcastMonitoring(@Payload CreateMonitoringDTO createMonitoringDTO) {
-        System.out.println("Sending monitoring update");
-        return createMonitoringDTO;
+    public Service broadcastMonitoring(@Payload Service service) {
+        return service;
     }
 }
