@@ -1,4 +1,4 @@
-package monitoring.repository;
+package monitoring.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Service {
+class Service {
     @Id
     @Column(nullable = false)
     private UUID id;

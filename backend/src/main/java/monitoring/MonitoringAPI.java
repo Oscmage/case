@@ -1,8 +1,8 @@
 package monitoring;
 
-import monitoring.domain.CreateMonitoringDTO;
-import monitoring.domain.Service;
-import monitoring.domain.ServiceCreator;
+import monitoring.dto.CreateMonitoringDTO;
+import monitoring.dto.ServiceDTO;
+import monitoring.service.ServiceCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class MonitoringAPI {
 
     @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")
-    public ResponseEntity<Service> createMonitoring(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
+    public ResponseEntity<ServiceDTO> createMonitoring(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
         try {
-            Service s = serviceCreator.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
+            ServiceDTO s = serviceCreator.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
             return new ResponseEntity<>(s, HttpStatus.CREATED);
         } catch (IllegalStateException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

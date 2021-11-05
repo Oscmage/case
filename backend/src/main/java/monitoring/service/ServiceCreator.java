@@ -1,7 +1,6 @@
-package monitoring.domain;
+package monitoring.service;
 
-import monitoring.janitor.PollingJanitor;
-import monitoring.repository.ServiceDAO;
+import monitoring.dto.ServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +17,17 @@ public class ServiceCreator {
     private ServiceDAO serviceDAO;
 
     @Transactional
-    public monitoring.domain.Service createService(String name, String url) throws IllegalStateException {
-        Optional<monitoring.repository.Service> existingService = serviceDAO.findByUrl(url);
+    public ServiceDTO createService(String name, String url) throws IllegalStateException {
+        Optional<monitoring.service.Service> existingService = serviceDAO.findByUrl(url);
         if (existingService.isPresent()) {
             throw new IllegalStateException("Monitoring for this URL already exists");
         }
 
-        monitoring.repository.Service s = new monitoring.repository.Service(
+        monitoring.service.Service s = new monitoring.service.Service(
             UUID.randomUUID(), name, url, new Date(), "Pending", UUID.randomUUID(), false, new Date()
         );
-        monitoring.repository.Service result = serviceDAO.save(s);
-        return new monitoring.domain.Service(
+        monitoring.service.Service result = serviceDAO.save(s);
+        return new ServiceDTO(
             result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
         );
     }

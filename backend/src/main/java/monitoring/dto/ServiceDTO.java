@@ -1,16 +1,16 @@
-package monitoring.domain;
+package monitoring.dto;
 
 import java.util.Date;
 import java.util.UUID;
 
-public class Service {
+public class ServiceDTO {
     private final UUID reference;
     private final String name;
     private final String url;
     private final Date creationTime;
     private final String status;
 
-    public Service(UUID reference, String name, String url, Date created, String status) {
+    public ServiceDTO(UUID reference, String name, String url, Date created, String status) {
         this.reference = reference;
         this.name = name;
         this.url = url;

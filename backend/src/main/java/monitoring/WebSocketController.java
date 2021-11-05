@@ -1,6 +1,6 @@
 package monitoring;
 
-import monitoring.domain.Service;
+import monitoring.dto.ServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -15,12 +15,12 @@ public class WebSocketController {
     SimpMessagingTemplate template;
 
     @MessageMapping("/sendMonitoring")
-    public void receiveMonitoring(@Payload Service service) {
+    public void receiveMonitoring(@Payload ServiceDTO service) {
         // receive message from client
     }
 
     @SendTo("/topic/monitoring")
-    public Service broadcastMonitoring(@Payload Service service) {
+    public ServiceDTO broadcastMonitoring(@Payload ServiceDTO service) {
         return service;
     }
 }

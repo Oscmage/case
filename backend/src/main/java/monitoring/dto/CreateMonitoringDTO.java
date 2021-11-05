@@ -1,4 +1,4 @@
-package monitoring.domain;
+package monitoring.dto;
 
 import java.util.Date;
 
