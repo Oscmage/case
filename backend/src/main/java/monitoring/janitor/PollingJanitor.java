@@ -1,7 +1,6 @@
 package monitoring.janitor;
 
 
-import monitoring.domain.CreateMonitoringDTO;
 import monitoring.repository.Service;
 import monitoring.repository.ServiceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
