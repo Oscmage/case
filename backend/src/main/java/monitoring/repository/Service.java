@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,7 +15,11 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Service extends EntityWithUUID {
+public class Service {
+    @Id
+    @Column(nullable = false)
+    private UUID id;
+
     @Column(nullable = false)
     private String name;
 
@@ -30,4 +35,10 @@ public class Service extends EntityWithUUID {
     @Type(type = "pg-uuid")
     @Column(nullable = false)
     private UUID reference;
+
+    @Column(nullable = false)
+    private boolean polling;
+
+    @Column(nullable = false)
+    private Date updated;
 }

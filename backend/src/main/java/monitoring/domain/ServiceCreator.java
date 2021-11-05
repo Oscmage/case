@@ -1,5 +1,6 @@
 package monitoring.domain;
 
+import monitoring.janitor.PollingJanitor;
 import monitoring.repository.ServiceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,11 @@ public class ServiceCreator {
         }
 
         monitoring.repository.Service s = new monitoring.repository.Service(
-            name, url, new Date(), "Pending", UUID.randomUUID()
+            UUID.randomUUID(), name, url, new Date(), "Pending", UUID.randomUUID(), false, new Date()
         );
         monitoring.repository.Service result = serviceDAO.save(s);
         return new monitoring.domain.Service(
-                result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
+            result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
         );
     }
 }
