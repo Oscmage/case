@@ -1,6 +1,7 @@
 package monitoring.janitor;
 
 import monitoring.domain.CreateMonitoringDTO;
+import monitoring.domain.CreateMonitoringDTOV2;
 import monitoring.repository.Service;
 import monitoring.repository.ServiceDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,13 @@ public class PollingJanitor{
             if (statusCode == HttpStatus.OK) {
                 System.out.println("RECEIVED OK");
                 serviceDAO.markPollingResult("Ok", s.getId());
-                CreateMonitoringDTO b = new CreateMonitoringDTO();
+                CreateMonitoringDTOV2 b = new CreateMonitoringDTOV2();
                 b.setName(s.getName());
                 b.setUrl(s.getUrl());
-                template.convertAndSend("/topic/message", b);
+                b.setStatus("Ok");
+                b.setCreated(s.getCreatedTime());
+                template.convertAndSend("/topic/monitoring", b);
+                System.out.println("Sent OK");
             } else {
                 System.out.println("RECEIVED Error");
                 serviceDAO.markPollingResult("Error", s.getId());

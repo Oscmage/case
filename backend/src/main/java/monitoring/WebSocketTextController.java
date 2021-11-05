@@ -24,16 +24,9 @@ public class WebSocketTextController {
     @Autowired
     ServiceCreator serviceCreator;
 
-    @PostMapping("/send")
-    public ResponseEntity<Void> sendMessage(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
-        template.convertAndSend("/topic/message", createMonitoringDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")
-    public ResponseEntity<Service> createMonitoring(@RequestBody CreateMonitoringDTOV2 createMonitoringDTO) {
-        //template.convertAndSend("/topic/message", createMonitoringDTO);
+    public ResponseEntity<Service> sendMonitoring(@RequestBody CreateMonitoringDTOV2 createMonitoringDTO) {
         try {
             Service s = this.serviceCreator.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
             return new ResponseEntity<>(s, HttpStatus.CREATED);
@@ -44,14 +37,14 @@ public class WebSocketTextController {
         }
     }
 
-    @MessageMapping("/sendMessage")
-    public void receiveMessage(@Payload CreateMonitoringDTO textMessageDTO) {
+    @MessageMapping("/sendMonitoring")
+    public void receiveMonitoring(@Payload CreateMonitoringDTO textMessageDTO) {
         // receive message from client
     }
 
-
-    @SendTo("/topic/message")
-    public CreateMonitoringDTO broadcastMessage(@Payload CreateMonitoringDTO createMonitoringDTO) {
+    @SendTo("/topic/monitoring")
+    public CreateMonitoringDTOV2 broadcastMonitoring(@Payload CreateMonitoringDTOV2 createMonitoringDTO) {
+        System.out.println("Sending monitoring update");
         return createMonitoringDTO;
     }
 }

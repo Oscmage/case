@@ -1,8 +1,11 @@
 package monitoring.domain;
 
+import java.util.Date;
+
 public class CreateMonitoringDTOV2 {
 
-    private String name, url;
+    private String name, url, status;
+    private Date created;
 
     public String getName() {
         return name;
@@ -18,5 +21,21 @@ public class CreateMonitoringDTOV2 {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }
