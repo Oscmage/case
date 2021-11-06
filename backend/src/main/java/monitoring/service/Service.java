@@ -13,8 +13,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "service")
-class ServiceTable {
+class Service {
     @Id
     @Column(nullable = false)
     private UUID id;
@@ -41,7 +40,7 @@ class ServiceTable {
     @Column(nullable = false)
     private Date updated;
 
-    public ServiceTable(String name, String url, String status) {
+    public Service(String name, String url, String status) {
         this.name = name;
         this.url = url;
         this.status = status;

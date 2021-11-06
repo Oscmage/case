@@ -26,16 +26,16 @@ public class ServicePollingJanitor {
     @Transactional
     public void startPolling() {
         System.out.println("STARTED POLLING");
-        List<ServiceTable> services = serviceDAO.findServicesToPoll(POLLING_LIMIT);
+        List<Service> services = serviceDAO.findServicesToPoll(POLLING_LIMIT);
 
         System.out.println("Found services : " + services.size());
-        for (ServiceTable s: services) {
+        for (Service s: services) {
             // TODO: Make this run in it's own thread.
             updateStatus(s);
         }
     }
 
-    private void updateStatus(ServiceTable s) {
+    private void updateStatus(Service s) {
         ResponseEntity<String> response = callServiceUrl(s);
 
         if (isOk(response)) {
@@ -45,7 +45,7 @@ public class ServicePollingJanitor {
         }
     }
 
-    private ResponseEntity<String> callServiceUrl(ServiceTable s) {
+    private ResponseEntity<String> callServiceUrl(Service s) {
         // TODO: Check if there are simpler ways to do this.
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();
@@ -57,14 +57,14 @@ public class ServicePollingJanitor {
         return response.getStatusCode() == HttpStatus.OK;
     }
 
-    private void markOk(ServiceTable s) {
+    private void markOk(Service s) {
         String status = ServiceStatus.Ok.toString();
         ServiceDTO serviceDTO = new ServiceDTO(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), status);
         template.convertAndSend("/topic/monitoring", serviceDTO);
         serviceDAO.markPollingResult(status, s.getId());
     }
 
-    private void markError(ServiceTable s) {
+    private void markError(Service s) {
         String status = ServiceStatus.Error.toString();
         serviceDAO.markPollingResult(status, s.getId());
     }

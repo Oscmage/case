@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MonitoringAPI {
     @Autowired
-    ServiceInterface serviceCreator;
+    ServiceInterface serviceInterface;
 
     @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")
     public ResponseEntity<ServiceDTO> createMonitoring(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
         try {
-            ServiceDTO s = serviceCreator.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
+            ServiceDTO s = serviceInterface.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
             return new ResponseEntity<>(s, HttpStatus.CREATED);
         } catch (IllegalStateException e) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
