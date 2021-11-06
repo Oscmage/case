@@ -14,8 +14,13 @@ import java.util.stream.Collectors;
 public class ServiceInterface {
     private final int FIND_SERVICE_LIMIT = 100;
 
-    @Autowired
+
     private ServiceDAO serviceDAO;
+
+    @Autowired
+    public ServiceInterface(ServiceDAO serviceDAO) {
+        this.serviceDAO = serviceDAO;
+    }
 
     @Transactional
     public ServiceDTO createService(String name, String url) throws IllegalStateException {

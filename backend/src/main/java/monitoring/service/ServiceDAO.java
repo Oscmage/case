@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-interface ServiceDAO extends CrudRepository<Service, UUID> {
+public interface ServiceDAO extends CrudRepository<Service, UUID> {
     Optional<Service> findByUrl(String url);
 
     @Modifying

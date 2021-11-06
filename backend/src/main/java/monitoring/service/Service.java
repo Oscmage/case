@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
-class Service {
+public class Service {
     @Id
     @Type(type = "pg-uuid")
     @Column(nullable = false)
