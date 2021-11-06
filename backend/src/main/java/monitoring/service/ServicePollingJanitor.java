@@ -18,15 +18,15 @@ public class ServicePollingJanitor {
     private static final int POLLING_LIMIT = 10; // TODO: Load this from config
 
     @Autowired
-    private ServiceDAO serviceDAO;
+    private ServiceInterface serviceInterface;
     @Autowired
-    SimpMessagingTemplate template;
+    private SimpMessagingTemplate template;
 
     @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.SECONDS)
     @Transactional
     public void startPolling() {
         System.out.println("STARTED POLLING");
-        List<Service> services = serviceDAO.findServicesToPoll(POLLING_LIMIT);
+        List<Service> services = serviceInterface.findServicesToPoll(POLLING_LIMIT);
 
         System.out.println("Found services : " + services.size());
         for (Service s: services) {
@@ -61,11 +61,11 @@ public class ServicePollingJanitor {
         String status = ServiceStatus.Ok.toString();
         ServiceDTO serviceDTO = new ServiceDTO(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), status);
         template.convertAndSend("/topic/monitoring", serviceDTO);
-        serviceDAO.markPollingResult(status, s.getId());
+        serviceInterface.markPollingResult(status, s.getId());
     }
 
     private void markError(Service s) {
         String status = ServiceStatus.Error.toString();
-        serviceDAO.markPollingResult(status, s.getId());
+        serviceInterface.markPollingResult(status, s.getId());
     }
 }

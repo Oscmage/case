@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @org.springframework.stereotype.Service
 public class ServiceInterface {
@@ -28,5 +30,13 @@ public class ServiceInterface {
         );
     }
 
+    @Transactional
+    public void markPollingResult(String status, UUID id) {
+        serviceDAO.markPollingResult(status, id);
+    }
 
+    @Transactional
+    public List<Service> findServicesToPoll(int pollingLimit) {
+        return serviceDAO.findServicesToPoll(pollingLimit);
+    }
 }

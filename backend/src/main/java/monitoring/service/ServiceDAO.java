@@ -18,6 +18,8 @@ interface ServiceDAO extends CrudRepository<Service, UUID> {
     , nativeQuery = true)
     List<Service> findServicesToPoll(int pollingLimit);
 
+    // TODO: Potentially move callers of this method to a domain service class (doesn't exist yet) to encapsulate this
+    // behaviour.
     @Modifying
     @Query(value = "UPDATE service SET polling = FALSE, status = ?1 WHERE id  = ?2", nativeQuery = true)
     void markPollingResult(String status, UUID id);
