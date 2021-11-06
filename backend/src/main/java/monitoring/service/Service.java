@@ -44,9 +44,11 @@ public class Service {
     @Column()
     private Date updated;
 
-    public Service(String name, String url, String status) {
+    public Service(String name, String url, String status, Date createdTime, UUID reference) {
         this.name = name;
         this.url = url;
         this.status = status;
+        this.createdTime = createdTime;
+        this.reference = reference;
     }
 }

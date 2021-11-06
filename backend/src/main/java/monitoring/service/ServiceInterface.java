@@ -4,6 +4,7 @@ import monitoring.dto.ServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class ServiceInterface {
         }
 
         Service result = serviceDAO.save(new Service(
-                name, url, ServiceStatus.Pending.toString()
+                name, url, ServiceStatus.Pending.toString(), new Date(), UUID.randomUUID()
         ));
         return new ServiceDTO(
                 result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()

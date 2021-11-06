@@ -1,15 +1,11 @@
 import React from 'react';
-import './App.css';
-import { CreateMonitoring } from './CreateMonitoring';
-import { MonitoringList} from './MonitoringList';
-import { CreateMonitoringList, CreateMonitoringResponse, MonitoringDict, Service, Status } from './Types';
 
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
-
-const SOCKET_URL = 'ws://localhost:8080/ws-monitoring';
-const CREATE_URL = 'http://localhost:8080/create'
-const LIST_URL = 'http://localhost:8080/list'
+import { SOCKET_URL, LIST_URL, CREATE_URL } from './Constants';
+import { MonitoringDict, Service, CreateMonitoringList, CreateMonitoringResponse } from './Types';
+import { CreateMonitoring } from './create_monitoring/CreateMonitoring';
+import { MonitoringList } from './monitoring_list/MonitoringList';
 
 export class App extends React.Component<{}, MonitoringDict> {
 

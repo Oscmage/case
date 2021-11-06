@@ -1,6 +1,6 @@
 import React from "react";
+import { CreateMonitoringList } from "../Types";
 import './CreateMonitoring.css';
-import { CreateMonitoringList } from "./Types";
 
 interface CreateState {
     name: string;
@@ -16,33 +16,6 @@ export class CreateMonitoring extends React.Component<CreateMonitoringList, Crea
     constructor(props: any) {
       super(props);
       this.state = initialState;
-    }
-
-    handleInputChangeUrl = (event: any) => {
-        const target = event.target;
-        const value = target.value;
-        this.setState({
-            url: value
-        });
-    }
-
-    handleInputChangeName = (event: any) => {
-        const target = event.target;
-        const value = target.value;
-        this.setState({
-            name: value
-        });
-    }
-
-    handleSubmit = async (event: any) => {
-        event.preventDefault();
-
-        const error: string | null = await this.props.create(this.state.name, this.state.url);
-        if (error !== null) {
-            alert("Received error: " + error)
-        } else {
-            this.setState(initialState);
-        }
     }
   
     render() {
@@ -71,5 +44,32 @@ export class CreateMonitoring extends React.Component<CreateMonitoringList, Crea
             <input type="submit" value="Add monitoring" />
         </form>
       );
-    }      
+    }
+    
+    handleInputChangeUrl = (event: any) => {
+        const target = event.target;
+        const value = target.value;
+        this.setState({
+            url: value
+        });
+    }
+
+    handleInputChangeName = (event: any) => {
+        const target = event.target;
+        const value = target.value;
+        this.setState({
+            name: value
+        });
+    }
+
+    handleSubmit = async (event: any) => {
+        event.preventDefault();
+
+        const error: string | null = await this.props.create(this.state.name, this.state.url);
+        if (error !== null) {
+            alert("Received error: " + error)
+        } else {
+            this.setState(initialState);
+        }
+    }
 }

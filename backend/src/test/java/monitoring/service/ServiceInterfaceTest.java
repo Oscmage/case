@@ -26,7 +26,7 @@ class ServiceInterfaceTest {
     static void beforeAll() {
         url = "Url";
         name = "Name";
-        service = new Service(name, url, ServiceStatus.Pending.toString());
+        service = new Service(name, url, ServiceStatus.Pending.toString(), new Date(), UUID.randomUUID());
         serviceInterface = new ServiceInterface(serviceDAOMock);
     }
 
