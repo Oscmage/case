@@ -18,4 +18,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 EXPOSE 8080
-ENTRYPOINT ["java","-cp","app:app/lib/*","monitoring.MonitoringApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*", "-Dspring.profiles.active=compose","monitoring.MonitoringApplication"]
