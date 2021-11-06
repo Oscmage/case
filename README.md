@@ -32,6 +32,8 @@ You should now be able to reach the application in your browser by going to:
 http://localhost:3000/
 ```
 
+
+### Expected flow
 The expected view for the landing page is the following
 
 ![Alt text](./img/landing_page.png)
@@ -40,3 +42,12 @@ From here you can add a new Service for monitoring by specifying an URL and a na
 
 See example of https://google.com
 
+![Alt text](./img/add_service.png)
+
+After pressing submit you should now see the service being in a pending state
+
+![Alt text](./img/added_service.png)
+
+Assuming that google is up and responsing to the request it will eventually turn green
+
+![Alt text](./img/added_service_ok.png)
