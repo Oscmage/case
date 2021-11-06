@@ -12,7 +12,7 @@ Make sure to have the following installed:
 2. [Docker-Compose](https://docs.docker.com/compose/install/)
 
 
-#### Running user docker-compose
+#### Running using docker-compose (assuming docker is running)
 
 Stand in the root directory of the repo and run
 
