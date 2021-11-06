@@ -1,5 +1,9 @@
 # Getting Started
 
+## Installation
+
+Make sure to have [yarn](https://yarnpkg.com/getting-started/install) installed.
+
 ## Available Scripts
 
 In the project directory, you can run:
