@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@org.springframework.stereotype.Service  // TODO: Check how we can spin up several of these, also based on config.
-public class PollingJanitor {
+@org.springframework.stereotype.Service  // TODO: Check how we can spin up several of these + based on config.
+public class ServicePollingJanitor {
     private static final int POLLING_LIMIT = 10; // TODO: Load this from config
 
     @Autowired

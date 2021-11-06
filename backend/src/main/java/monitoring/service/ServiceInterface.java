@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ServiceInterface {
@@ -23,10 +21,9 @@ public class ServiceInterface {
             throw new IllegalStateException("Monitoring for this URL already exists");
         }
 
-        ServiceTable s = new ServiceTable(
-            UUID.randomUUID(), name, url, new Date(), ServiceStatus.Pending.toString(), UUID.randomUUID(), false, new Date()
-        );
-        ServiceTable result = serviceDAO.save(s);
+        ServiceTable result = serviceDAO.save(new ServiceTable(
+                name, url, ServiceStatus.Pending.toString()
+        ));
         return new ServiceDTO(
             result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
         );

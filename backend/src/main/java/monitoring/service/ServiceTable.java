@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
@@ -43,4 +40,10 @@ class ServiceTable {
 
     @Column(nullable = false)
     private Date updated;
+
+    public ServiceTable(String name, String url, String status) {
+        this.name = name;
+        this.url = url;
+        this.status = status;
+    }
 }
