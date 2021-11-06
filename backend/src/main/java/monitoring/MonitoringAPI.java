@@ -3,6 +3,7 @@ package monitoring;
 import monitoring.dto.CreateMonitoringDTO;
 import monitoring.dto.ServiceDTO;
 import monitoring.service.ServiceInterface;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,25 @@ import java.util.List;
 public class MonitoringAPI {
     Logger logger = LoggerFactory.getLogger(MonitoringAPI.class);
 
+    private final ServiceInterface serviceInterface;
+    private final UrlValidator urlValidator;
+
     @Autowired
-    ServiceInterface serviceInterface;
+    public MonitoringAPI(ServiceInterface serviceInterface) {
+        this.serviceInterface = serviceInterface;
+
+        String[] schemes = {"http", "https"};
+        urlValidator = new UrlValidator(schemes);
+    }
 
     @CrossOrigin(origins = "http://localhost:3000")  // TODO: Remove when shipping to prod
     @PostMapping("/create")  // TODO: Add versioning
     public ResponseEntity<ServiceDTO> createMonitoring(@RequestBody CreateMonitoringDTO createMonitoringDTO) {
-        System.out.println("ASD");
-        System.out.println(Thread.currentThread().getName());
+        // TODO: Add layer in between service layer and interface
+        if (!urlValidator.isValid(createMonitoringDTO.getUrl())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         try {
             ServiceDTO s = serviceInterface.createService(createMonitoringDTO.getName(), createMonitoringDTO.getUrl());
             return new ResponseEntity<>(s, HttpStatus.CREATED);

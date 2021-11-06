@@ -59,14 +59,16 @@ class ServicePoller {
 
     private void markOk(Service s) {
         String status = ServiceStatus.Ok.toString();
+        serviceInterface.markPollingResult(status, s.getId());
         ServiceDTO serviceDTO = new ServiceDTO(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), status);
         logger.info("Trying to send service over socket");
         template.convertAndSend("/topic/monitoring", serviceDTO);
-        serviceInterface.markPollingResult(status, s.getId());
     }
 
     private void markError(Service s) {
         String status = ServiceStatus.Error.toString();
         serviceInterface.markPollingResult(status, s.getId());
+        ServiceDTO serviceDTO = new ServiceDTO(s.getReference(), s.getName(), s.getUrl(), s.getCreatedTime(), status);
+        template.convertAndSend("/topic/monitoring", serviceDTO);
     }
 }
