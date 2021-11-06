@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
@@ -32,9 +33,20 @@ class ServicePoller {
         }
     }
 
+    private SimpleClientHttpRequestFactory getClientHttpRequestFactory() {
+        SimpleClientHttpRequestFactory clientHttpRequestFactory
+                = new SimpleClientHttpRequestFactory();
+        //Connect timeout
+        clientHttpRequestFactory.setConnectTimeout(10_000);
+
+        //Read timeout
+        clientHttpRequestFactory.setReadTimeout(10_000);
+        return clientHttpRequestFactory;
+    }
+
     private ResponseEntity<String> callServiceUrl(Service s) {
         // TODO: Check if there are simpler ways to do this.
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
         HttpHeaders requestHeaders = new HttpHeaders();
         HttpEntity requestEntity = new HttpEntity<>(requestHeaders);
         return restTemplate.exchange(s.getUrl(), HttpMethod.GET, requestEntity, String.class);
