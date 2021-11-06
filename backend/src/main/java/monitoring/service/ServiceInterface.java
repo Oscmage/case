@@ -8,9 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 @org.springframework.stereotype.Service
 public class ServiceInterface {
+    private int FIND_SERVICE_LIMIT = 100;
 
     @Autowired
     private ServiceDAO serviceDAO;
@@ -36,7 +39,14 @@ public class ServiceInterface {
     }
 
     @Transactional
-    public List<Service> findServicesToPoll(int pollingLimit) {
+    protected List<Service> findServicesToPoll(int pollingLimit) {
         return serviceDAO.findServicesToPoll(pollingLimit);
+    }
+
+    @Transactional
+    public List<ServiceDTO> listServices() {
+        List<Service> serviceList = serviceDAO.findServices(FIND_SERVICE_LIMIT);
+
+        return serviceList.stream().map(service -> new ServiceDTO(service.getReference(), service.getName(), service.getUrl(), service.getCreatedTime(), service.getStatus())).collect(Collectors.toList());
     }
 }
