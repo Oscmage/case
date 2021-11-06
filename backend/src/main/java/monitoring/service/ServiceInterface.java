@@ -2,7 +2,6 @@ package monitoring.service;
 
 import monitoring.dto.ServiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class ServiceInterface {
                 name, url, ServiceStatus.Pending.toString()
         ));
         return new ServiceDTO(
-            result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
+                result.getReference(), result.getName(), result.getUrl(), result.getCreatedTime(), result.getStatus()
         );
     }
 

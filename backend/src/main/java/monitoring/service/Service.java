@@ -19,7 +19,7 @@ class Service {
     @Id
     @Type(type = "pg-uuid")
     @Column(nullable = false)
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)

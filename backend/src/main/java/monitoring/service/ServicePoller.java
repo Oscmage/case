@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
 
 @org.springframework.stereotype.Service
-public class ServicePoller {
+class ServicePoller {
     Logger logger = LoggerFactory.getLogger(ServicePoller.class);
 
     @Autowired

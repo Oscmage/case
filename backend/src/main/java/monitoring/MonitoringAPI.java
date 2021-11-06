@@ -30,7 +30,7 @@ public class MonitoringAPI {
         } catch (IllegalStateException e) {
             logger.error(e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }  catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

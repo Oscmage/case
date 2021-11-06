@@ -15,7 +15,7 @@ interface ServiceDAO extends CrudRepository<Service, UUID> {
     @Query(value = "UPDATE service SET polling = TRUE WHERE id IN (SELECT id FROM Service s WHERE " +
             "(s.updated < NOW() - INTERVAL '10 SECONDS' AND NOT polling) OR" +
             "(s.updated < NOW() - INTERVAL '180 SECONDS' AND polling) LIMIT ?1 FOR UPDATE SKIP LOCKED) RETURNING *;"
-    , nativeQuery = true)
+            , nativeQuery = true)
     List<Service> findServicesToPoll(int pollingLimit);
 
     @Query(value = "SELECT * FROM service LIMIT ?1"
