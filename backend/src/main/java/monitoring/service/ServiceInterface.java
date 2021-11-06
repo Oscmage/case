@@ -45,6 +45,8 @@ public class ServiceInterface {
 
     @Transactional
     public List<ServiceDTO> listServices() {
+        // The idea is that if this would grow the database would not have to return all of these.
+        // Instead, the frontend would retrieve them individually with status updates as a result of the polling janitor.
         List<Service> serviceList = serviceDAO.findServices(FIND_SERVICE_LIMIT);
 
         return serviceList.stream().map(service -> new ServiceDTO(service.getReference(), service.getName(), service.getUrl(), service.getCreatedTime(), service.getStatus())).collect(Collectors.toList());

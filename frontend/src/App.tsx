@@ -9,6 +9,7 @@ import axios from 'axios';
 
 const SOCKET_URL = 'ws://localhost:8080/ws-monitoring';
 const CREATE_URL = 'http://localhost:8080/create'
+const LIST_URL = 'http://localhost:8080/list'
 
 export class App extends React.Component<{}, MonitoringDict> {
 
@@ -20,6 +21,8 @@ export class App extends React.Component<{}, MonitoringDict> {
   }
 
   componentDidMount = () => {
+    this.loadServices();
+
     let onConnected = () => {
       console.log("Connected!!")
       client.subscribe('/topic/monitoring', (msg) => {
@@ -60,9 +63,31 @@ export class App extends React.Component<{}, MonitoringDict> {
     client.activate();
   };
 
+  loadServices = () => {
+    axios.get(LIST_URL).then((res) => {
+      const list: any[] = res.data;
+      let services = {}
+      for (const item of list) {
+        services[item.reference] = {
+          reference: item.reference,
+          name: item.name,
+          url: item.url,
+          status: item.status,
+          creationTime: item.creationTime,
+        }
+      }
+      this.setState({
+        services
+      });
+      console.log("Loaded services");
+    }).catch((err) => {
+      console.error("Failed loading services on initilization")
+    });
+  }
+
   createMonitoring: CreateMonitoringList["create"] = async (name: string, url: string) => {
     // TODO: Split validation/parsing and action.
-    const response = await this.createMonitoring2(name, url);
+    const response = await this._createMonitoring(name, url);
     const error = response.error
 
     if (typeof error === 'undefined') {
@@ -81,7 +106,7 @@ export class App extends React.Component<{}, MonitoringDict> {
     }
   }
 
-  createMonitoring2 = async (name: string, url: string): Promise<CreateMonitoringResponse> => {
+  _createMonitoring = async (name: string, url: string): Promise<CreateMonitoringResponse> => {
     const data = {
       name: name,
       url: url,
