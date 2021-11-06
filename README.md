@@ -34,7 +34,7 @@ http://localhost:3000/
 
 The expected view for the landing page is the following
 
-![Alt text](./img/service.png)
+![Alt text](./img/landing_page.png)
 
 From here you can add a new Service for monitoring by specifying an URL and a name. 
 
