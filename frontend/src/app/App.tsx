@@ -10,7 +10,7 @@ import {
   CreateMonitoringResponse,
 } from "./Types";
 import { CreateMonitoring } from "./create_monitoring/CreateMonitoring";
-import { MonitoringList } from "./monitoring_list/MonitoringList";
+import { ServiceList } from "./service_list/ServiceList";
 
 export class App extends React.Component<{}, MonitoringDict> {
   constructor(props: any) {
@@ -163,7 +163,7 @@ export class App extends React.Component<{}, MonitoringDict> {
       <div className="App">
         <div className="Form-Wrapper">
           <CreateMonitoring create={this.createMonitoring} />
-          <MonitoringList services={this.state.services} />
+          <ServiceList services={this.state.services} />
         </div>
       </div>
     );
