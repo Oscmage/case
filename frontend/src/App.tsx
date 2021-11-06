@@ -20,35 +20,35 @@ export class App extends React.Component<{}, MonitoringDict> {
     };
   }
 
+  _onSocketEvent = (msg) => {
+    if (msg.body) {
+      var jsonBody = JSON.parse(msg.body);
+      const oldState = this.state.services;
+      const newServiceValue: Service = {
+        reference: jsonBody.reference,
+        name: jsonBody.name,
+        url: jsonBody.url,
+        status: jsonBody.status,
+        creationTime: jsonBody.creationTime,
+      };
+      const newState = {...oldState, [newServiceValue.reference]: newServiceValue};
+      
+      this.setState({
+        services: newState
+      });
+    }
+  }
+
   componentDidMount = () => {
     this.loadServices();
 
     let onConnected = () => {
-      console.log("Connected!!")
-      client.subscribe('/topic/monitoring', (msg) => {
-        console.log("Msg received!")
-
-        if (msg.body) {
-          var jsonBody = JSON.parse(msg.body);
-          const oldState = this.state.services;
-          const newServiceValue: Service = {
-            reference: jsonBody.reference,
-            name: jsonBody.name,
-            url: jsonBody.url,
-            status: jsonBody.status,
-            creationTime: jsonBody.creationTime,
-          };
-          const newState = {...oldState, [newServiceValue.reference]: newServiceValue};
-          
-          this.setState({
-            services: newState
-          });
-        }
-      });
+      console.log("Socket connection established!")
+      client.subscribe('/topic/monitoring', this._onSocketEvent);
     }
 
     let onDisconnected = () => {
-      console.log("Disconnected!!")
+      console.log("Disconnected socket!")
     }
 
     const client = new Client({
@@ -79,7 +79,8 @@ export class App extends React.Component<{}, MonitoringDict> {
       this.setState({
         services
       });
-      console.log("Loaded services");
+      console.log("Initial load of services complete");
+      console.log(services);
     }).catch((err) => {
       console.error("Failed loading services on initilization")
     });

@@ -3,6 +3,7 @@ package monitoring.service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -13,9 +14,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicInsert
 class Service {
     @Id
+    @Type(type = "pg-uuid")
     @Column(nullable = false)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
@@ -24,20 +28,20 @@ class Service {
     @Column(nullable = false, unique = true)
     private String url;
 
-    @Column(nullable = false)
+    @Column()
     private Date createdTime;
 
     @Column(nullable = false)
     private String status;
 
     @Type(type = "pg-uuid")
-    @Column(nullable = false)
+    @Column()
     private UUID reference;
 
-    @Column(nullable = false)
+    @Column()
     private boolean polling;
 
-    @Column(nullable = false)
+    @Column()
     private Date updated;
 
     public Service(String name, String url, String status) {

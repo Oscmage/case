@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class ServiceInterface {
-    private int FIND_SERVICE_LIMIT = 100;
+    private final int FIND_SERVICE_LIMIT = 100;
 
     @Autowired
     private ServiceDAO serviceDAO;
