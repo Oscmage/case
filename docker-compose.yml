@@ -6,9 +6,31 @@ services:
     build: ./frontend
     ports:
       - 3000:80
+    depends_on:
+      - backend
 
   backend:
     container_name: backend
     build: ./backend
     ports:
       - 8080:8080
+    links: [postgres_db]
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+  postgres_db:
+    image: "postgres:14.0"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: monitoring
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
